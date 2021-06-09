@@ -16,8 +16,8 @@ Sylvera Technical Test - By Jerold Adjei-Ampofo
 - **utils/**: folder contains custom utils for project
 - **pages/**: in next.js a page is a react component, each page is associated with a route based on its file name
 - **public/**: static assets and html files
-- \***\*mock**/\*\*: folder contains mock data for tests
-- \***\*tests**/\*\*: folder contains tests
+- **\_\_mock\_\_/**: folder contains mock data for tests
+- **\_\_tests\_\_/**: folder contains tests
 
 ## Getting the Project Started
 
