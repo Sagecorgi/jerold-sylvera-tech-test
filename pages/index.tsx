@@ -1,5 +1,4 @@
-import { FC, ReactElement } from 'react'
-import { GetServerSideProps } from 'next'
+import { InferGetServerSidePropsType } from 'next'
 import _ from 'lodash'
 import fetch from 'node-fetch'
 
@@ -8,7 +7,9 @@ import Container from '../components/Container'
 import RepoCard from '../components/RepoCard'
 import Error from '../components/Error'
 
-const Home: FC<{ data: Repos }> = ({ data }): ReactElement => {
+const Home = ({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const renderRepoCards = (data: Repos) => {
     const repos = data.map((repo: Repo) => {
       return <RepoCard key={repo.id} repo={repo} />
@@ -34,9 +35,9 @@ const Home: FC<{ data: Repos }> = ({ data }): ReactElement => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = async () => {
   const res = await fetch('https://api.github.com/orgs/github/repos')
-  const data = await res.json()
+  const data: Repos = await res.json()
 
   return {
     props: {

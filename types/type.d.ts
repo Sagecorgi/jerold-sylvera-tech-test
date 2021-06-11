@@ -1,6 +1,7 @@
 type Repos = Repo[]
 
 interface Owner {
+  login: string
   [key: string]: string | number | boolean | null | undefined
 }
 

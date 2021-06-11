@@ -1,5 +1,5 @@
 import { FC, ReactElement } from 'react'
-import { GetServerSideProps } from 'next'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import moment from 'moment'
 import { GoIssueOpened } from 'react-icons/go'
 import _ from 'lodash'
@@ -9,7 +9,7 @@ import Container from '../../components/Container'
 import Pill from '../../components/Pill'
 import Error from '../../components/Error'
 
-const Repo: FC<{ data: Repo }> = ({ data }): ReactElement => {
+const Repo: FC<{ data: Repo }> = ({ data }) => {
   if (_.isEmpty(data)) {
     return <Error />
   }
@@ -48,7 +48,18 @@ const Repo: FC<{ data: Repo }> = ({ data }): ReactElement => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await fetch('https://api.github.com/orgs/github/repos')
+  const data = await res.json()
+
+  const paths = data.map((repo: Repo) => ({
+    params: { owner: repo?.owner?.login, repo: repo?.name },
+  }))
+
+  return { paths, fallback: false }
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(
     `https://api.github.com/repos/${context?.params?.owner}/${context?.params?.repo}`,
   )
